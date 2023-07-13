@@ -1,0 +1,117 @@
+{% extends "stock_manager/base.html" %}
+{% load static %}
+
+{% block head %}
+
+
+<script>window.CKEDITOR_BASEPATH = '/static/ckeditor/ckeditor/';</script>
+<!-- <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script> -->
+
+{% endblock %}
+
+
+{% block content %}
+
+<h2 id="titleName"></h2>
+
+<input type="button" value="Click" onclick="getFormHTML()">
+{{html_form|safe}}
+
+
+{% endblock %}
+
+
+{% block script %}
+{% load static %}
+
+<script>
+
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            }
+          });
+
+
+        $('#myForm').submit(function(event) {
+          event.preventDefault();  // Prevent the default form submission
+      
+
+          var editor = CKEDITOR.instances.id_comment;
+          var content = editor.getData();
+          console.log(content);
+
+          
+
+          var form = $(this);
+          var url = "{% url 'stk:create_form_data' %}";
+          var formData = new FormData(form[0]);
+          formData.append('comment', content);
+
+
+          console.log(formData);
+      
+          $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+              // Handle the success response here
+            },
+            error: function(xhr, errmsg, err) {
+              // Handle the error response here
+            }
+          });
+        });
+      });
+
+
+
+    function getName() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                document.getElementById('titleName').innerHTML = xhttp.responseText;
+            }
+        }
+        xhttp.open("GET", "{% url 'stk:test_get_name' %}");
+        xhttp.send();
+    }
+
+    function getNameWithJquery() {
+
+        $.ajax({
+            type: "GET",
+            url: "{% url 'stk:test_get_name' %}",
+            success: function (response) {
+                document.getElementById('titleName').innerHTML = response;
+            }
+        });
+    }
+
+
+    function getNameWithFetch() {
+
+        fetch("{% url 'stk:test_get_name' %}")
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                else {
+                    throw new Error('Error: ' + response.status);
+                }
+            }
+            )
+            .then(responseText => {
+                console.log(responseText);
+                document.getElementById('titleName').innerHTML = responseText;
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    }
+</script>
+{% endblock %}

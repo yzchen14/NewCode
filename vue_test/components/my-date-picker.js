@@ -1,6 +1,6 @@
 export const MyDatePicker = {
 
-    props:{
+    props: {
         startRange: {
             type: Number,
         }
@@ -22,26 +22,26 @@ export const MyDatePicker = {
         const currentDate = new Date();
         const startDate = new Date(currentDate - this.startRange * 24 * 60 * 60 * 1000); // Calculate start date
         console.log(currentDate.toISOString().split('T')[0]);
-        
-      return {
-        startDate: startDate.toISOString().split('T')[0], // To store the selected start date
-        endDate: currentDate.toISOString().split('T')[0],   // To store the selected end date
-      };
+
+        return {
+            startDate: startDate.toISOString().split('T')[0], // To store the selected start date
+            endDate: currentDate.toISOString().split('T')[0],   // To store the selected end date
+        };
     },
     methods: {
-      queryData() {
-        // Here, you can perform your query or any other action with the selected dates.
-        // For example, you can log them to the console.
-        console.log('Start Date:', this.startDate);
-        console.log('End Date:', this.endDate);
-      },
-    setDate(date, inputType) {
-    if (inputType === 'start') {
-        this.startDate = date.toISOString().split('T')[0];
-    } else if (inputType === 'end') {
-        this.endDate = date.toISOString().split('T')[0];
-    }
-    },
+        queryData() {
+            // Here, you can perform your query or any other action with the selected dates.
+            // For example, you can log them to the console.
+            console.log('Start Date:', this.startDate);
+            console.log('End Date:', this.endDate);
+        },
+        setDate(date, inputType) {
+            if (inputType === 'start') {
+                this.startDate = date.toISOString().split('T')[0];
+            } else if (inputType === 'end') {
+                this.endDate = date.toISOString().split('T')[0];
+            }
+        },
 
     },
-  };
+};

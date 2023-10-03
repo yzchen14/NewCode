@@ -15,7 +15,45 @@
     </div>
 
     <script type="module">
-        import {ASMDatePicker} from "./components/asm-date-picker.js";
+        
+      const TestComponent = {
+
+
+        template:`
+        <div>
+            <span>{{text}}</span>
+            <button @contextmenu.prevent="handleRightClick">Click</button>
+        </div>
+        `
+        ,
+    
+        data(){
+            return {
+                text: "OK"
+            }
+    
+        },
+        methods: {
+
+          changeText(){
+            this.text = "changed";
+          },
+          handleRightClick(event) {
+            // Prevent the default context menu from appearing
+            event.preventDefault();
+      
+            // Add your custom right-click handling logic here
+            alert('Right-clicked!');
+          }
+
+        }
+    
+    
+    }  
+      
+      
+      
+      //import {ASMDatePicker} from "./components/asm-date-picker.js";
         const app = Vue.createApp({
             data() {
               return {
@@ -23,7 +61,7 @@
               };
             },
             components: {
-              'my-date-picker': ASMDatePicker,
+              'my-date-picker': TestComponent,
             },
           });
           
